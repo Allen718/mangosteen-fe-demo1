@@ -7,11 +7,16 @@ import { Third } from "./pages/welcome/components/Third";
 import { Welcome } from "./pages/welcome/Welcome";
 
 export const routes = [
-  { path: "/", component: Home},
-  { path: "/welcome", component: Welcome,children:[
-    { path:'first',component:First},
-    { path:'second',component:Second},
-    { path:'third',component:Third},
-    { path:'forth',component:Forth},
-  ] },
+  { path: "/",  redirect: '/welcome' },
+  {
+    path: "/welcome",
+    component: Welcome,
+    children: [
+      { path: "", redirect: "/welcome/first"},
+      { path: "first", component: First },
+      { path: "second", component: Second },
+      { path: "third", component: Third },
+      { path: "forth", component: Forth },
+    ],
+  },
 ];
