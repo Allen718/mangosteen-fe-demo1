@@ -12,15 +12,8 @@ export const Welcome = defineComponent({
             <img class={style.img} src={logo} />
             <h class={style.text}>山竹记账</h>
           </header>
-          <div class={style.main}>
-            <RouterView />
-          </div>
+          <RouterView />
         </div>
-        <footer class={style.footer}>
-          <RouterLink class={style.fake} to="/start" >跳过</RouterLink>
-          <RouterLink to="/welcome/2" >下一页</RouterLink>
-          <RouterLink to="/start" >跳过</RouterLink>
-        </footer>
       </>
     )
   }
