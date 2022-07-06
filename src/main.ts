@@ -1,6 +1,7 @@
 import { createApp } from "vue";
 import { createRouter, createWebHashHistory } from "vue-router";
 import { App } from "./App";
+import '@svgstore';
 import { routes } from "./routes";
 
 const router = createRouter({

@@ -31,3 +31,6 @@ body {
   color: #333;
   box-sizing: border-box;
 }
+::webkit-scrollbar {
+  visibility: hidden;
+}

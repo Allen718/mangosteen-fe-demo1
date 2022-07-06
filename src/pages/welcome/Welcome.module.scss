@@ -12,7 +12,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  .img {
+  > svg {
     width: 64px;
     height: 69px;
   }
@@ -39,13 +39,12 @@
     border-radius: 8px;
     background: #ffffff;
     border: 1px solid #707070;
-    .icon {
+    > svg {
       width: 130px;
       height: 130px;
-    }
-    > img {
       margin-bottom: 32px;
     }
+
     h2 {
       margin: 0;
       font-size: 18px;
