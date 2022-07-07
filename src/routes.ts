@@ -17,10 +17,26 @@ export const routes = [
     component: Welcome,
     children: [
       { path: "", redirect: "/welcome/1" },
-      { path: "1",  components: { main: First, footer: FirstAction }, },
-      { path: "2", components: {main:Second,footer:SecondAction}},
-      { path: "3", components: {main:Third,footer:ThirdAction}},
-      { path: "4", components: {main:Forth,footer:ForthAction} },
+      {
+        path: "1",
+        name: "welcome1",
+        components: { main: First, footer: FirstAction },
+      },
+      {
+        path: "2",
+        name: "welcome2",
+        components: { main: Second, footer: SecondAction },
+      },
+      {
+        path: "3",
+        name: "welcome3",
+        components: { main: Third, footer: ThirdAction },
+      },
+      {
+        path: "4",
+        name: "welcome4",
+        components: { main: Forth, footer: ForthAction },
+      },
     ],
   },
 ];

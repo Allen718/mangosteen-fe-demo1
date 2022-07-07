@@ -25,14 +25,13 @@
   }
 }
 .main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
   position: relative;
-  margin-top: 32px;
-  width: 100%;
-  flex: 1;
-  padding-bottom: var(--welcome-nav-gap);
+  margin: 16px 16px var(--welcome-nav-gap);
   .card {
     height: 100%;
-    margin: 0 8px;
     display: flex;
     flex-direction: column;
     justify-content: center;

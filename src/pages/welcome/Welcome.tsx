@@ -1,17 +1,27 @@
-import { defineComponent, h, Transition, VNode, ref, watchEffect } from 'vue';
-import { RouteLocationNormalizedLoaded, RouterView, useRoute } from 'vue-router';
+import { defineComponent, Transition, VNode, ref, watchEffect } from 'vue';
+import { RouteLocationNormalizedLoaded, RouterView, useRoute, useRouter } from 'vue-router';
+import { throttle } from '../../components/throttle';
 import { useSwipe } from '../../hooks/useSwipe';
 import style from './Welcome.module.scss'
-
+const routerMap: Record<string, string> = {
+  welcome1: '/welcome/2',
+  welcome2: '/welcome/3',
+  welcome3: '/welcome/4',
+  welcome4: '/start',
+}
 export const Welcome = defineComponent({
   setup: (props, context) => {
-    const main = ref<HTMLElement | null>(null);
-    const { direction, distance, swiping } = useSwipe(main);
+    const main = ref<HTMLElement>();
+    const { direction, swiping } = useSwipe(main, { beforeTouchstart: e => e.preventDefault() });
+    const router = useRouter()
+    const route = useRoute()
+    const touchPush = throttle(() => {
+      const currentRouteName = (route.name || 'welcome1').toString()
+      router.replace(routerMap[currentRouteName]);
+    }, 500);
     watchEffect(() => {
-      if (direction.value === 'right' && distance.value) {
-        if (distance.value.x > 100) {
-          console.log('右滑动')
-        }
+      if (direction.value === 'left' && swiping.value) {
+        touchPush();
       }
     })
     return () => (

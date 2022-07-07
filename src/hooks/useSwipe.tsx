@@ -3,7 +3,15 @@ type Point = {
   x: number,
   y: number,
 };
-export const useSwipe = (element: Ref<HTMLElement | null>) => {
+interface Options {
+  beforeTouchstart?: (e: TouchEvent) => void
+  afterTouchstart?: (e: TouchEvent) => void
+  beforeTouchMove?: (e: TouchEvent) => void
+  AfterTouchMove?: (e: TouchEvent) => void
+  beforeTouchEnd?: (e: TouchEvent) => void
+  AfterTouchEnd?: (e: TouchEvent) => void
+};
+export const useSwipe = (element: Ref<HTMLElement | undefined>, options?: Options) => {
   const start: Ref<Point | undefined> = ref()
   const end: Ref<Point | undefined> = ref();
   const swiping = ref(false);
@@ -24,8 +32,10 @@ export const useSwipe = (element: Ref<HTMLElement | null>) => {
     }
   })
   const onStart = (e: TouchEvent) => {
+    options?.beforeTouchstart?.(e)
     swiping.value = true
     end.value = start.value = { x: e.touches[0].screenX, y: e.touches[0].screenY }
+    options?.afterTouchstart?.(e)
   };
   const onMove = (e: TouchEvent) => {
     if (!start.value) { return }
