@@ -9,6 +9,7 @@ import { Third } from "./pages/welcome/components/Third";
 import { ThirdAction } from "./pages/welcome/components/ThirdAction";
 import { ForthAction } from "./pages/welcome/components/ForthAction";
 import { Welcome } from "./pages/welcome/Welcome";
+import { StartPage } from "./pages/start/StartPage";
 
 export const routes = [
   { path: "/", redirect: "/welcome" },
@@ -39,4 +40,8 @@ export const routes = [
       },
     ],
   },
+  {
+    path: "/start",
+    component: StartPage,
+  }
 ];
