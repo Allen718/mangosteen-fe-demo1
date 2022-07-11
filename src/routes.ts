@@ -1,5 +1,3 @@
-import { Foo } from "./pages/Foo";
-import { Home } from "./pages/Home";
 import { First } from "./pages/welcome/components/First";
 import { FirstAction } from "./pages/welcome/components/FirstAction";
 import { Forth } from "./pages/welcome/components/Forth";
@@ -10,6 +8,9 @@ import { ThirdAction } from "./pages/welcome/components/ThirdAction";
 import { ForthAction } from "./pages/welcome/components/ForthAction";
 import { Welcome } from "./pages/welcome/Welcome";
 import { StartPage } from "./pages/start/StartPage";
+import { ItemList } from "./pages/item_list/ItemList";
+import { ItemCreate } from "./pages/item_create/ItemCreate";
+import { ItemPage } from "./pages/item_page/ItemPage";
 
 export const routes = [
   { path: "/", redirect: "/welcome" },
@@ -43,5 +44,13 @@ export const routes = [
   {
     path: "/start",
     component: StartPage,
-  }
+  },
+  {
+    path: "/item",
+    component:ItemPage,
+    children: [
+      { path: "", component: ItemList },
+      { path: "create", component: ItemCreate },
+    ],
+  },
 ];
