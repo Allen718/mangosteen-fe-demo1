@@ -4,7 +4,7 @@ import style from './Icon.module.scss';
 export const Icon = defineComponent({
   props: {
     name: {
-      type: String as PropType<'add' | 'chart' | 'clock' | 'cloud' | 'mangosteen' | 'pig'>
+      type: String as PropType<'add' | 'chart' | 'clock' | 'cloud' | 'mangosteen' | 'pig'|'menu'>
     },
     width: {
       type: Number
