@@ -2,6 +2,7 @@
 *::after {
   box-sizing: border-box;
 }
+
 h1,
 h2,
 h3,
@@ -20,6 +21,7 @@ button,
 input {
   font: inherit;
 }
+
 body {
   margin: 0;
   font-family: -apple-system, "Noto Sans", "Helvetica Neue", Helvetica,
@@ -31,6 +33,11 @@ body {
   color: #333;
   box-sizing: border-box;
 }
+
 ::webkit-scrollbar {
   visibility: hidden;
+}
+
+ul>li {
+  list-style: none
 }
