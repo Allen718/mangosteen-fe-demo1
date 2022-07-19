@@ -5,7 +5,7 @@ export const Icon = defineComponent({
   props: {
     name: {
       type: String as PropType<'add' | 'chart' | 'clock' |
-        'cloud' | 'mangosteen' | 'pig' | 'menu' | 'chart' | 'export' | 'notify'|'left'>
+        'cloud' | 'mangosteen' | 'pig' | 'menu' | 'chart' | 'export' | 'notify'|'left'|'date'>
     },
     width: {
       type: Number

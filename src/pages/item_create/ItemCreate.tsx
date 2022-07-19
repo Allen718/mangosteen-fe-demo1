@@ -2,6 +2,7 @@ import { defineComponent, PropType, ref } from 'vue';
 import { Icon } from '../../components/Icon/Icon';
 import { MainLayout } from '../../components/Layout/MainLayout';
 import { Tabs, Tab } from '../../components/Tab/Tab';
+import { InputPad } from './components/InputPad';
 import s from './ItemCreate.module.scss';
 export const ItemCreate = defineComponent({
   props: {
@@ -16,11 +17,17 @@ export const ItemCreate = defineComponent({
         <MainLayout>{{
           title: () => '记一笔',
           icon: () => <Icon name="left" />,
-          default: () => <Tabs selected={refTab.value} onUpdatedTab={(label) => refTab.value = label}>
+          default: () => <> <Tabs selected={refTab.value} onUpdatedTab={(label) => refTab.value = label}>
             <Tab label="支出" >支出</Tab>
             <Tab label="收入" >收入</Tab>
           </Tabs>
-        }}</MainLayout>
+            <div class={s.inputPad_wrapper}>
+              <InputPad />
+            </div>
+          </>
+        }}
+
+        </MainLayout>
       </div>
     )
   }
