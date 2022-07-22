@@ -1,5 +1,7 @@
 import { defineComponent, PropType } from 'vue';
-export const Foo = defineComponent({
+import { RouterView } from 'vue-router';
+import s from './TagPage.module.scss';
+export const TagPage = defineComponent({
   props: {
     name: {
       type: String as PropType<string>
@@ -7,8 +9,8 @@ export const Foo = defineComponent({
   },
   setup: (props, context) => {
     return () => (
-      <div>
-        hello this is foo
+      <div class={s.wrapper}>
+        <RouterView />
       </div>
     )
   }

@@ -11,6 +11,8 @@ import { StartPage } from "./pages/start/StartPage";
 import { ItemList } from "./pages/item_list/ItemList";
 import { ItemCreate } from "./pages/item_create/ItemCreate";
 import { ItemPage } from "./pages/item_page/ItemPage";
+import { TagPage } from "./pages/tag_page/TagPage";
+import { TagList } from "./pages/tag_list/TagList";
 
 export const routes = [
   { path: "/", redirect: "/welcome" },
@@ -51,6 +53,14 @@ export const routes = [
     children: [
       { path: "", component: ItemList },
       { path: "create", component: ItemCreate },
+    ],
+  },
+  {
+    path: "/tag",
+    component:TagPage,
+    children: [
+      { path: "", component: TagList },
+      // { path: "create", component: TagCreate },
     ],
   },
 ];
