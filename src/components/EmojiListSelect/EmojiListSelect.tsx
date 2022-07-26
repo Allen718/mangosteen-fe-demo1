@@ -5,11 +5,13 @@ export const EmojiListSelect = defineComponent({
   props: {
     modelValue: {
       type: String
+    },
+    error: {
+      type: Boolean
     }
   },
   setup: (props, context) => {
     const refSelected = ref(0)
-
     const table: [string, string[]][] = [
       ['表情', ['face-smiling', 'face-affection', 'face-tongue', 'face-hand',
         'face-neutral-skeptical', 'face-sleepy', 'face-unwell', 'face-hat',
@@ -43,7 +45,7 @@ export const EmojiListSelect = defineComponent({
       return emojis;
     })
     return () => (
-      <div class={[s.formItem, s.emojiList, s.error]}>
+      <div class={[s.formItem, s.emojiList, props.error && s.error]}>
         <nav>
           {table?.map((i, index) => <span
             class={index === (refSelected.value) ? s.selected : ''}
