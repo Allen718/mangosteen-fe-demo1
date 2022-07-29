@@ -4,19 +4,17 @@
   flex-grow: 1;
   &_nav {
     display: flex;
-    justify-content: space-between;
+    // justify-content: space-between;
     align-items: center;
     text-align: center;
     color: var(--navbar-text);
     padding: 0;
     margin: 0;
     background: var(--navbar-bg-end);
-
     >li {
       flex-grow: 1;
       flex-shrink: 0;
       padding: 12px 0;
-
       &.selected {
         position: relative;
 

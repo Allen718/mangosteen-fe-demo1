@@ -5,6 +5,9 @@ export const Tabs = defineComponent({
     selected: {
       type: String as PropType<String>
     },
+    classPrefix: {
+      type: String
+    },
     onUpdatedTab: {
       type: Function as PropType<(curentLabel: string) => void>
     },
@@ -17,18 +20,19 @@ export const Tabs = defineComponent({
         throw new Error('<Tabs> only accepts <Tab> as children')
       }
     }
+    const cp = props.classPrefix //支持传入类名 自定义样式
     return () => (
-      <div class={s.tabs}>
-        <ol class={s.tabs_nav}>
+      <div class={[s.tabs, cp + '_tabs']}>
+        <ol class={[s.tabs_nav, cp + '_tabs_nav']}>
           {tabs.map(tab =>
-            <li class={tab.props?.label === props.selected ? s.selected : ''}
+            <li class={[tab.props?.label === props.selected ? [s.selected, cp + '_selected'] : '', cp + '_tabs_nav_item']}
               onClick={() => props.onUpdatedTab?.(tab.props?.label)}
             >
               {tab.props?.label}
             </li>)}
         </ol>
         <div >
-        {tabs.find(item => item.props?.label === props.selected)}
+          {tabs.find(item => item.props?.label === props.selected)}
         </div>
       </div>
     )

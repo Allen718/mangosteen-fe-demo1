@@ -1,0 +1,8 @@
+.customTabs_tabs_nav {
+  justify-content: flex-start;
+  &>&_item {
+    flex-grow: 0;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
