@@ -1,6 +1,7 @@
 .tabs {
   position: relative;
   top: -0.5px;
+  flex-grow: 1;
   &_nav {
     display: flex;
     justify-content: space-between;
