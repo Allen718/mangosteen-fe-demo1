@@ -8,7 +8,10 @@ export const EmojiListSelect = defineComponent({
     },
     error: {
       type: Boolean
-    }
+    },
+    onUpdateModelValue: {
+      type: Function as PropType<(emoji: String) => void>
+    },
   },
   setup: (props, context) => {
     const refSelected = ref(0)
@@ -33,6 +36,7 @@ export const EmojiListSelect = defineComponent({
       ['运动', ['sport', 'game']],
     ]
     const onClickEmoji = (emoji: String) => {
+      props.onUpdateModelValue && props.onUpdateModelValue(emoji)
       context.emit('update:modelValue', emoji)
     };
     const emojis = computed(() => {
