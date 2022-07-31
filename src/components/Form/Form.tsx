@@ -1,4 +1,4 @@
-import { defineComponent, PropType, computed } from 'vue';
+import { defineComponent, PropType, computed, handleError } from 'vue';
 import { EmojiListSelect } from '../EmojiListSelect/EmojiListSelect';
 import s from './Form.module.scss';
 export const Form = defineComponent({
@@ -28,8 +28,12 @@ export const FormItem = defineComponent({
     type: {
       type: String as PropType<'text' | 'emojiSelect' | 'date'>,
     },
+    isHasError: {
+      type: Boolean,
+      defaultValue: false,
+    },
     error: {
-      type: String
+      type: String,
     }
   },
   setup: (props, context) => {
@@ -39,12 +43,13 @@ export const FormItem = defineComponent({
           return <input
             value={props.modelValue}
             onInput={(e: any) => context.emit('update:modelValue', e.target.value)}
-            class={[s.formItem, s.input, s.error]} />
+            class={[s.formItem, s.input, props.isHasError && s.error]} />
         case 'emojiSelect':
           return <EmojiListSelect
             modelValue={props.modelValue?.toString()}
             onUpdateModelValue={value => context.emit('update:modelValue', value)}
-            class={[s.formItem, s.emojiList, s.error]} />
+            error={props.isHasError}
+          />
         case 'date':
           return <input />
         case undefined:

@@ -1,5 +1,5 @@
 import { Button } from '@/components/Button/Button';
-import { EmojiListSelect } from '@/components/EmojiListSelect/EmojiListSelect';
+import { Form, FormItem } from '@/components/Form/Form';
 import validate, { Rules } from '@/utils/validate';
 import { defineComponent, PropType, reactive } from 'vue';
 import s from './TagForm.module.scss';
@@ -28,40 +28,28 @@ export const TagForm = defineComponent({
       })
       Object.assign(errors, validate(formData, rules))
       e.preventDefault();
+      console.log(formData, 'formData')
     };
     return () => (
       <div class={s.wrapper}>
-        <form class={s.form} onSubmit={handleSubmit}>
-          <div class={s.formRow}>
-            <label class={s.formLabel}>
-              <span class={s.formItem_name}>标签名</span>
-              <div class={s.formItem_value}>
-                <input class={[s.formItem, s.input, errors?.name && s.error]} v-model={formData.name}></input>
-              </div>
-              <div class={s.formItem_errorHint}>
-                <span>{errors?.name ? errors?.name?.[0] : '　'}</span>
-              </div>
-            </label>
-          </div>
-          <div class={s.formRow}>
-            <label class={s.formLabel}>
-              <span class={s.formItem_name}>符号</span>
-              <span>{formData.sign}</span>
-              <div class={s.formItem_value}>
-                <EmojiListSelect v-model={formData.sign} error={Boolean(errors?.sign)} />
-              </div>
-              <div class={s.formItem_errorHint}>
-                <span>{errors?.sign ? errors?.sign?.[0] : '　'}</span>
-              </div>
-            </label>
-          </div>
-          <p class={s.tips}>记账时长按标签即可进行编辑</p>
-          <div class={s.formRow}>
-            <div class={s.formItem_value}>
+        <Form onSubmit={handleSubmit}>
+          {{
+            default: () => <>
+              <FormItem label='标签名'
+                type="text"
+                v-model={formData.name}
+                isHasError={Boolean(errors['name'])}
+                error={errors['name'] ? errors['name'][0] : '　'} />
+              <FormItem label={`符号${formData.sign}`}
+                type="emojiSelect" v-model={formData.sign}
+                isHasError={Boolean(errors['sign'])}
+                error={errors['sign'] ? errors['sign'][0] : '　'} />
+            </>,
+            actions: () => <div class={s.formItem_value}>
               <Button class={[s.formItem, s.button]} >确定</Button>
             </div>
-          </div>
-        </form>
+          }}
+        </Form>
       </div>
     )
   }
