@@ -27,7 +27,7 @@ export class Time {
       new Date(this.date.getFullYear(), this.date.getMonth(), 1, 0, 0, 0)
     );
   }
-  firstDayOfYaer() {
+  firstDayOfYear() {
     return new Time(new Date(this.date.getFullYear(), 0, 1, 0, 0, 0));
   }
   lastDayOfMonth() {
@@ -86,6 +86,6 @@ export class Time {
       default:
         throw new Error("Time.add: unknown unit");
     }
-    return date;
+    return new Time(date);
   }
 }
