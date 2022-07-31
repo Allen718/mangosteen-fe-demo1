@@ -1,10 +1,11 @@
-import { defineComponent, PropType, ref, onUpdated, reactive } from 'vue';
+import { defineComponent, PropType, ref, onUpdated, reactive, watchEffect } from 'vue';
 import s from './ItemList.module.scss';
 import { MainLayout } from '../../components/Layout/MainLayout';
 import { Icon } from '../../components/Icon/Icon';
 import { Time } from '@/utils/time';
 import { Tab, Tabs } from '@/components/Tab/Tab';
 import { ItemSummary } from './components/ItemSummary';
+import { Overlay } from 'vant';
 export const ItemList = defineComponent({
   props: {
     name: {
@@ -14,7 +15,14 @@ export const ItemList = defineComponent({
 
   },
   setup: (props, context) => {
-    const refTab = ref('本月');
+    const refTab = ref('这个月');
+    //时间弹框
+    const refOverlayVisible = ref(false);
+    watchEffect(() => {
+      if (refTab.value === '自定义时间') {
+        refOverlayVisible.value = true
+      }
+    })
     const time = new Time(new Date());
     const timeList = [
       {
@@ -41,8 +49,8 @@ export const ItemList = defineComponent({
       <div class={s.wrapper}><MainLayout>{{
         title: () => '山竹记账',
         icon: () => <Icon name="left" />,
-        default: () => {
-          return <div>
+        default: () =>
+          <div>
             <Tabs selected={refTab.value} onUpdatedTab={(label) => refTab.value = label} classPrefix="customTabs" >
               <Tab label="这个月">
                 <div>
@@ -55,9 +63,29 @@ export const ItemList = defineComponent({
                 endDate={customTime.end.format()} /></div></Tab>
             </Tabs>
           </div>
-        }
-      }}</MainLayout></div>
+
+      }}
+      </MainLayout>
+        <Overlay show={refOverlayVisible.value} class={s.overlay} >
+          <div class={s.overlay_inner}>
+            <header>
+              请选择时间
+            </header>
+            <main>
+              <form>
+                <div>
+
+                </div>
+                <div>
+
+                </div>
+              </form>
+            </main>
+          </div>
+        </Overlay>
+
+      </div>
     )
   }
-  
+
 })
