@@ -58,7 +58,7 @@ export const ItemList = defineComponent({
         icon: () => <Icon name="left" />,
         default: () =>
           <div>
-            <Tabs selected={refTab.value} onUpdatedTab={(label) => refTab.value = label} classPrefix="customTabs" >
+            <Tabs v-model:selected={refTab.value} onUpdate:selected={(label) => refTab.value = label} classPrefix="customTabs" >
               <Tab label="这个月">
                 <div>
                   <ItemSummary startDate={timeList[0].start.format()} endDate={timeList[0].end.format()} />

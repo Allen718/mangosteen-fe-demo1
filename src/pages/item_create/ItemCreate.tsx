@@ -51,49 +51,53 @@ export const ItemCreate = defineComponent({
         <MainLayout>{{
           title: () => '记一笔',
           icon: () => <Icon name="left" />,
-          default: () => <div class={s.wrapper}> 
-          <Tabs selected={refTab.value} onUpdatedTab={(label) => refTab.value = label} >
-            <Tab label="支出" class={s.tags_wrapper} >
-              <div class={s.tag}>
-                <div class={s.sign}>
-                  <Icon name="add" class={s.createTag} />
-                </div>
-                <div class={s.name}>
-                  新增
-                </div>
-              </div>
-              {refExpensesTags.value.map(tag =>
-                <div class={[s.tag, s.selected]}>
+          default: () => <div class={s.wrapper}>
+            <Tabs
+              v-model:selected={refTab.value}
+              onUpdate:selected={(label) =>refTab.value = label}
+              // onUpdatedTab={(label) => refTab.value = label}
+               >
+              <Tab label="支出" class={s.tags_wrapper} >
+                <div class={s.tag}>
                   <div class={s.sign}>
-                    {tag.sign}
+                    <Icon name="add" class={s.createTag} />
                   </div>
                   <div class={s.name}>
-                    {tag.name}
+                    新增
                   </div>
                 </div>
-              )}
-            </Tab>
-            <Tab label="收入" class={s.tags_wrapper}>
-              <div class={s.tag}>
-                <div class={s.sign}>
-                  <Icon name="add" class={s.createTag} />
-                </div>
-                <div class={s.name}>
-                  新增
-                </div>
-              </div>
-              {refIncomeTags.value.map(tag =>
-                <div class={[s.tag, s.selected]}>
+                {refExpensesTags.value.map(tag =>
+                  <div class={[s.tag, s.selected]}>
+                    <div class={s.sign}>
+                      {tag.sign}
+                    </div>
+                    <div class={s.name}>
+                      {tag.name}
+                    </div>
+                  </div>
+                )}
+              </Tab>
+              <Tab label="收入" class={s.tags_wrapper}>
+                <div class={s.tag}>
                   <div class={s.sign}>
-                    {tag.sign}
+                    <Icon name="add" class={s.createTag} />
                   </div>
                   <div class={s.name}>
-                    {tag.name}
+                    新增
                   </div>
                 </div>
-              )}
-            </Tab>
-          </Tabs>
+                {refIncomeTags.value.map(tag =>
+                  <div class={[s.tag, s.selected]}>
+                    <div class={s.sign}>
+                      {tag.sign}
+                    </div>
+                    <div class={s.name}>
+                      {tag.name}
+                    </div>
+                  </div>
+                )}
+              </Tab>
+            </Tabs>
             <div class={s.inputPad_wrapper}>
               <InputPad />
             </div>
