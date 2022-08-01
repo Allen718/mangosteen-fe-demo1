@@ -6,6 +6,7 @@ import { Time } from '@/utils/time';
 import { Tab, Tabs } from '@/components/Tab/Tab';
 import { ItemSummary } from './components/ItemSummary';
 import { Overlay } from 'vant';
+import { Form, FormItem } from '@/components/Form/Form';
 export const ItemList = defineComponent({
   props: {
     name: {
@@ -42,9 +43,15 @@ export const ItemList = defineComponent({
       }
     ]
     const customTime = reactive({
-      start: new Time(),
-      end: new Time(),
+      start: new Time().format(),
+      end: new Time().format(),
     });
+    //关于错误
+    const errors = reactive<{ [k in keyof typeof customTime]?: string[] }>({});
+
+    const handleSubmit = () => {
+      console.log('调用了');
+    };
     return () => (
       <div class={s.wrapper}><MainLayout>{{
         title: () => '山竹记账',
@@ -59,11 +66,13 @@ export const ItemList = defineComponent({
               </Tab>
               <Tab label="上个月"><div> <ItemSummary startDate={timeList[1].start.format()} endDate={timeList[1].start.format()} /></div></Tab>
               <Tab label="今年"><div><ItemSummary startDate={timeList[2].start.format()} endDate={timeList[2].start.format()} /></div></Tab>
-              <Tab label="自定义时间"><div><ItemSummary startDate={customTime.start.format()}
-                endDate={customTime.end.format()} /></div></Tab>
+              <Tab label="自定义时间"><div>
+                <ItemSummary
+                  startDate={customTime.start}
+                  endDate={customTime.end}
+                /></div></Tab>
             </Tabs>
           </div>
-
       }}
       </MainLayout>
         <Overlay show={refOverlayVisible.value} class={s.overlay} >
@@ -72,14 +81,25 @@ export const ItemList = defineComponent({
               请选择时间
             </header>
             <main>
-              <form>
-                <div>
-
-                </div>
-                <div>
-
-                </div>
-              </form>
+              <Form onSubmit={handleSubmit}>
+                {{
+                  default: () => <>
+                    <FormItem label='开始时间'
+                      type="date"
+                      v-model={customTime.start}
+                      isHasError={Boolean(errors['start'])}
+                      error={errors['start'] ? errors['start'][0] : '　'} />
+                    <FormItem label="结束时间"
+                      type="date" v-model={customTime.end}
+                      isHasError={Boolean(errors['end'])}
+                      error={errors['end'] ? errors['end'][0] : '　'} />
+                  </>,
+                  actions: () => <div class={s.formItem_value}>
+                    <button class={[s.formItem, s.button]} type="submit" >确定</button>
+                    <button class={[s.formItem, s.button]} onClick={() => { refOverlayVisible.value = false }} >取消</button>
+                  </div>
+                }}
+              </Form>
             </main>
           </div>
         </Overlay>
