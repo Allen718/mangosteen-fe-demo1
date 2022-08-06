@@ -1,6 +1,7 @@
 import { Time } from '@/utils/time';
 import { DatetimePicker, Popup } from 'vant';
 import { defineComponent, PropType, computed, handleError, ref } from 'vue';
+import { Button } from '../Button/Button';
 import { EmojiListSelect } from '../EmojiListSelect/EmojiListSelect';
 import s from './Form.module.scss';
 export const Form = defineComponent({
@@ -28,7 +29,7 @@ export const FormItem = defineComponent({
       type: [String, Number]
     },
     type: {
-      type: String as PropType<'text' | 'emojiSelect' | 'date'>,
+      type: String as PropType<'text' | 'emojiSelect' | 'date' | 'validateCode'>,
     },
     isHasError: {
       type: Boolean,
@@ -36,7 +37,8 @@ export const FormItem = defineComponent({
     },
     error: {
       type: String,
-    }
+    },
+    placeholder: String,
   },
   setup: (props, context) => {
     const refDateVisible = ref(false);
@@ -46,6 +48,7 @@ export const FormItem = defineComponent({
         case 'text':
           return <input
             value={props.modelValue}
+            placeholder={props.placeholder}
             onInput={(e: any) => context.emit('update:modelValue', e.target.value)}
             class={[s.formItem, s.input, props.isHasError && s.error]} />
         case 'emojiSelect':
@@ -60,6 +63,7 @@ export const FormItem = defineComponent({
             <input
               value={props.modelValue}
               readonly
+              placeholder={props.placeholder}
               onClick={() => {
                 refDateVisible.value = true
               }}
@@ -74,6 +78,15 @@ export const FormItem = defineComponent({
                 onCancel={() => refDateVisible.value = false} />
             </Popup>
           </>
+
+        case 'validateCode':
+          return <> <input
+            placeholder={props.placeholder}
+            value={props.modelValue}
+            onInput={(e: any) => context.emit('update:modelValue', e.target.value)}
+            class={[s.formItem, s.input, s.validationCodeInput, props.isHasError && s.error]} />
+            <Button class={s.validationCodeButton}>发送验证码</Button>
+          </>
         case undefined:
           return context.slots.default?.()
       }
@@ -87,10 +100,10 @@ export const FormItem = defineComponent({
           <div class={s.formItem_value}>
             {content.value}
           </div>
-          {props.error &&
+          {props.error ?
             <div class={s.formItem_errorHint}>
               <span>{props.error}</span>
-            </div>
+            </div> : '  '
           }
         </label>
       </div>

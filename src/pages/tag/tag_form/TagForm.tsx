@@ -28,7 +28,6 @@ export const TagForm = defineComponent({
       })
       Object.assign(errors, validate(formData, rules))
       e.preventDefault();
-      console.log(formData, 'formData')
     };
     return () => (
       <div class={s.wrapper}>

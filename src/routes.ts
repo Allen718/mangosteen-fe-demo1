@@ -15,6 +15,7 @@ import { ItemPage } from "./pages/item_page/ItemPage";
 import { TagPage } from "./pages/tag/tag_page/TagPage";
 import { TagList } from "./pages/tag/tag_list/TagList";
 import { TagEdit } from "./pages/tag/tag_edit/TagEdit";
+import { SignPage } from './pages/sign_page/SignPage';
 
 export const routes = [
   { path: "/", redirect: "/welcome" },
@@ -64,5 +65,9 @@ export const routes = [
       { path: "", component: TagList },
       { path: "edit", component: TagEdit },
     ],
+  },
+  {
+    path: "/sign_in",
+    component:SignPage,
   },
 ];

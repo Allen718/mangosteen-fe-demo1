@@ -26,7 +26,11 @@
       border-color: var(--error-color);
     }
   }
-
+  &.validationCodeInput {
+    flex-grow: 0;
+    width: 9em;
+  }
+  
 
   &_name {
   }
@@ -42,4 +46,8 @@
     color: var(--error-color);
     font-size: 12px;
   }
+}
+.validationCodeButton {
+  margin-left: 16px;
+  height:52px;
 }
