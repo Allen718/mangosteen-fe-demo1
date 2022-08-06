@@ -9,10 +9,11 @@ export const EmojiListSelect = defineComponent({
     error: {
       type: Boolean
     },
-    onUpdateModelValue: {
-      type: Function as PropType<(emoji: String) => void>
-    },
+    // onUpdateModelValue: {
+    //   type: Function as PropType<(emoji: String) => void>
+    // },
   },
+  emits:['update:value'],
   setup: (props, context) => {
     const refSelected = ref(0)
     const table: [string, string[]][] = [
@@ -36,8 +37,8 @@ export const EmojiListSelect = defineComponent({
       ['运动', ['sport', 'game']],
     ]
     const onClickEmoji = (emoji: String) => {
-      props.onUpdateModelValue && props.onUpdateModelValue(emoji)
-      context.emit('update:modelValue', emoji)
+      // props.onUpdateModelValue && props.onUpdateModelValue(emoji)
+      context.emit('update:value', emoji)
     };
     const emojis = computed(() => {
       const catagorys = table[refSelected.value][1]

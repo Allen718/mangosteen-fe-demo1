@@ -50,8 +50,9 @@ export const FormItem = defineComponent({
             class={[s.formItem, s.input, props.isHasError && s.error]} />
         case 'emojiSelect':
           return <EmojiListSelect
-            modelValue={props.modelValue?.toString()}
-            onUpdateModelValue={value => context.emit('update:modelValue', value)}
+            v-model:value={props.modelValue}
+            // modelValue={props.modelValue?.toString()}
+            onUpdate:value={value => context.emit('update:modelValue', value)}
             error={props.isHasError}
           />
         case 'date':
