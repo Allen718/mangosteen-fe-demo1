@@ -7,6 +7,7 @@ import { Tab, Tabs } from '@/components/Tab/Tab';
 import { ItemSummary } from './components/ItemSummary';
 import { Overlay } from 'vant';
 import { Form, FormItem } from '@/components/Form/Form';
+import { OverlayIcon } from '../../components/Overlay/Overlay';
 export const ItemList = defineComponent({
   props: {
     name: {
@@ -55,7 +56,7 @@ export const ItemList = defineComponent({
     return () => (
       <div class={s.wrapper}><MainLayout>{{
         title: () => '山竹记账',
-        icon: () => <Icon name="left" />,
+        icon: () => <OverlayIcon />,
         default: () =>
           <div>
             <Tabs v-model:selected={refTab.value} onUpdate:selected={(label) => refTab.value = label} classPrefix="customTabs" >
