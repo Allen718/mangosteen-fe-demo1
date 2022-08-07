@@ -1,0 +1,22 @@
+.wrapper {}
+
+.select_wrapper {
+  display: flex;
+  padding: 16px 32px;
+  align-items: center;
+  font-size: 16px;
+  color: var(--text);
+}
+
+.select {
+  margin-left: 16px;
+  width: 200px;
+  height: 42px;
+  border: 1px solid var(--input-border-color);
+  border-radius: var(--input-radius);
+  padding: 0 8px;
+  appearance: none;
+  -moz-appearance: none;
+  /* Firefox */
+  -webkit-appearance: none;
+}

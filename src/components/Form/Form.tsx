@@ -29,11 +29,14 @@ export const FormItem = defineComponent({
       type: [String, Number]
     },
     type: {
-      type: String as PropType<'text' | 'emojiSelect' | 'date' | 'validateCode'>,
+      type: String as PropType<'text' | 'emojiSelect' | 'date' | 'validateCode' | 'select'>,
     },
     isHasError: {
       type: Boolean,
       defaultValue: false,
+    },
+    options: {
+      type: Array as PropType<{ text: string, value: string | number }[]>
     },
     error: {
       type: String,
@@ -87,6 +90,14 @@ export const FormItem = defineComponent({
             class={[s.formItem, s.input, s.validationCodeInput, props.isHasError && s.error]} />
             <Button class={s.validationCodeButton}>发送验证码</Button>
           </>
+        case 'select':
+          return <select
+            class={[s.formItem, s.input, s.select, props.isHasError && s.error]}
+          >
+            {
+              props.options?.map(option => <option value={option.value} class={s.option} >{option.text}</option>)
+            }
+          </select >
         case undefined:
           return context.slots.default?.()
       }
