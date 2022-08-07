@@ -11,29 +11,32 @@ export const Tabs = defineComponent({
   },
   emits: ['update:selected'],
   setup: (props, context) => {
-    const tabs = context.slots.default?.()
-    if (!tabs) return () => null
-    for (let i = 0; i < tabs.length; i++) {
-      if (tabs[i].type !== Tab) {
-        throw new Error('<Tabs> only accepts <Tab> as children')
-      }
-    }
+
     const cp = props.classPrefix //支持传入类名 自定义样式
-    return () => (
-      <div class={[s.tabs, cp + '_tabs']}>
-        <ol class={[s.tabs_nav, cp + '_tabs_nav']}>
-          {tabs.map(tab =>
-            <li class={[tab.props?.label === props.selected ? [s.selected, cp + '_selected'] : '', cp + '_tabs_nav_item']}
-              onClick={()=>context.emit('update:selected', tab.props?.label)}
-            >
-              {tab.props?.label}
-            </li>)}
-        </ol>
-        <div >
-          {tabs.find(item => item.props?.label === props.selected)}
+    return () => {
+      const tabs = context.slots.default?.()
+      if (!tabs) return () => null
+      for (let i = 0; i < tabs.length; i++) {
+        if (tabs[i].type !== Tab) {
+          throw new Error('<Tabs> only accepts <Tab> as children')
+        }
+      }
+      return (
+        <div class={[s.tabs, cp + '_tabs']}>
+          <ol class={[s.tabs_nav, cp + '_tabs_nav']}>
+            {tabs.map(tab =>
+              <li class={[tab.props?.label === props.selected ? [s.selected, cp + '_selected'] : '', cp + '_tabs_nav_item']}
+                onClick={() => context.emit('update:selected', tab.props?.label)}
+              >
+                {tab.props?.label}
+              </li>)}
+          </ol>
+          <div >
+            {tabs.find(item => item.props?.label === props.selected)}
+          </div>
         </div>
-      </div>
-    )
+      )
+    }
   }
 })
 export const Tab = defineComponent({
