@@ -1,5 +1,8 @@
 import { Form, FormItem } from '@/components/Form/Form';
 import { defineComponent, PropType, ref } from 'vue';
+import { Bars } from '../barChart/BarChart';
+import { LineChart } from '../lineChart/LineChart';
+import { PieChart } from '../pieChart/PieChart';
 import s from './Charts.module.scss';
 export const Charts = defineComponent({
   props: {
@@ -35,7 +38,9 @@ export const Charts = defineComponent({
             }
           </select >
         </div>
-
+        <LineChart />
+        <PieChart />
+        <Bars />
       </div>
     )
   }
