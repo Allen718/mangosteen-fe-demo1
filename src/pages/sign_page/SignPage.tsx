@@ -34,9 +34,11 @@ export const SignPage = defineComponent({
       Object.assign(errors, validate(formData, rule));
       console.log('formData', formData)
     };
+    const handleSendVidationCode=()=>{
+      console.log('需要发送验证码')
+    }
     return () => (
       <MainLayout>
-
         {{
           title: () => '登录',
           icon: () => <Icon name="left" />,
@@ -59,7 +61,9 @@ export const SignPage = defineComponent({
                     placeholder='请输入六位数字'
                     v-model:modelValue={formData.code}
                     isHasError={Boolean(errors['code'][0])}
+                    onClick={handleSendVidationCode}
                     error={errors['code'] ? errors['code'][0] : '　'} />
+                   
                 </>,
                 actions: () => <div>
                   <Button class={s.button}>登录</Button>
