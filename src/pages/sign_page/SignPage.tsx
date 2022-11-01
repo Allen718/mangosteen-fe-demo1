@@ -66,7 +66,7 @@ export const SignPage = defineComponent({
                    
                 </>,
                 actions: () => <div>
-                  <Button class={s.button}>登录</Button>
+                  <Button class={s.button} type="submit">登录</Button>
                 </div>
               }}
 
