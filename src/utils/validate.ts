@@ -12,7 +12,14 @@ type Rule<T> = {
     }
 );
 type Rules<T> = Rule<T>[];
-function hasError (errors: Record<string, string[]>) {
+function hasError(errors: Record<string, string[]>) {
+  return (
+    Object.values(errors).reduce(
+      (result: number, i) => (result += i.length),
+      0
+    ) > 0
+  );
+
   let result = false;
   for (let key in errors) {
     if (errors[key].length > 0) {
@@ -23,7 +30,7 @@ function hasError (errors: Record<string, string[]>) {
   return result;
 }
 export type { Rule, FData, Rules };
-export {hasError}
+export { hasError };
 const validate = <T>(formData: FData<T>, rules: Rules<T>) => {
   type Errors = {
     [key in keyof T]?: String[];
