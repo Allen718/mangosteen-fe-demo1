@@ -45,7 +45,7 @@ export const FormItem = defineComponent({
     onClick: Function as PropType<() => void>,
     countFrom: {
       type: Number,
-      default: 60
+      default: 10
     }
 
   },
@@ -63,10 +63,10 @@ export const FormItem = defineComponent({
       timer.value = window.setInterval(() => {
         if (countRef.value > 0) {
           countRef.value -= 1;
-        } else if (countRef.value > 0) {
-          clearInterval(timer.value)
+        } else if (countRef.value === 0) {
           timer.value = undefined
           countRef.value = props.countFrom
+          clearInterval(timer.value)
         }
       }, 1000)
     }
