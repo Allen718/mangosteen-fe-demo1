@@ -2,16 +2,21 @@ import { Form, FormItem } from '@/components/Form/Form';
 import { Icon } from '@/components/Icon/Icon';
 import { MainLayout } from '@/components/Layout/MainLayout';
 import { Button } from '@/components/Button/Button';
-import { defineComponent, PropType, reactive } from 'vue';
+
+import { defineComponent, PropType, reactive, ref } from 'vue';
 import s from './SignPage.module.scss';
 import validate, { Rules } from '@/utils/validate';
+import axios from 'axios';
 export const SignPage = defineComponent({
   props: {
     name: {
       type: String as PropType<string>
-    }
+    },
+
   },
   setup: (props, context) => {
+    const refValidationCode = ref();
+
     const formData = reactive({
       email: '',
       code: '',
@@ -34,9 +39,20 @@ export const SignPage = defineComponent({
       Object.assign(errors, validate(formData, rule));
       console.log('formData', formData)
     };
-    const handleSendVidationCode=()=>{
-      console.log('需要发送验证码')
+    const handleSendVidationCode = async () => {
+      // const response = await axios.post('/api/v1/validation_codes', { email: formData.email })
+      // console.log(response)
+      // const response = await axios.post('/api/v1/validation_codes', { email: formData.email })
+      //   .catch(() => {
+      //     //失败
+      //   })
+      // 成功
+      console.log('浅浅的试一试哈')
+      refValidationCode.value.startCount()
     }
+
+
+
     return () => (
       <MainLayout>
         {{
@@ -62,8 +78,9 @@ export const SignPage = defineComponent({
                     v-model:modelValue={formData.code}
                     isHasError={Boolean(errors['code'][0])}
                     onClick={handleSendVidationCode}
-                    error={errors['code'] ? errors['code'][0] : '　'} />
-                   
+                    error={errors['code'] ? errors['code'][0] : '　'}
+                    ref={refValidationCode}
+                  />
                 </>,
                 actions: () => <div>
                   <Button class={s.button} type="submit">登录</Button>

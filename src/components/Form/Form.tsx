@@ -1,5 +1,4 @@
 import { Time } from '@/utils/time';
-import { time } from 'console';
 import { DatetimePicker, Popup } from 'vant';
 import { defineComponent, PropType, computed, handleError, ref } from 'vue';
 import { Button } from '../Button/Button';
@@ -59,8 +58,8 @@ export const FormItem = defineComponent({
     //是否正在计时
     const isCounting = computed(() => !!timer.value)
 
-    const handleSendValidationCode = () => {
-      props.onClick?.();
+    //开始计时
+    const startCount = () => {
       timer.value = window.setInterval(() => {
         if (countRef.value > 0) {
           countRef.value -= 1;
@@ -70,8 +69,9 @@ export const FormItem = defineComponent({
           countRef.value = props.countFrom
         }
       }, 1000)
-
     }
+
+    context.expose({ startCount })
     const content = computed(() => {
       switch (props.type) {
         case 'text':
@@ -114,7 +114,7 @@ export const FormItem = defineComponent({
             value={props.modelValue}
             onInput={(e: any) => context.emit('update:modelValue', e.target.value)}
             class={[s.formItem, s.input, s.validationCodeInput, props.isHasError && s.error]} />
-            <Button class={s.validationCodeButton} onClick={handleSendValidationCode} disabled={isCounting.value}>{isCounting.value ? countRef.value : '发送验证码'}</Button>
+            <Button class={s.validationCodeButton} onClick={props.onClick} disabled={isCounting.value}>{isCounting.value ? countRef.value : '发送验证码'}</Button>
           </>
         case 'select':
           return <select
