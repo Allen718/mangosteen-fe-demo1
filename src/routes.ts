@@ -11,7 +11,6 @@ import { StartPage } from "./pages/start/StartPage";
 import { ItemList } from "./pages/item_list/ItemList";
 import { ItemCreate } from "./pages/item_create/ItemCreate";
 import { ItemPage } from "./pages/item_page/ItemPage";
-
 import { TagPage } from "./pages/tag/tag_page/TagPage";
 import { TagList } from "./pages/tag/tag_list/TagList";
 import { TagEdit } from "./pages/tag/tag_edit/TagEdit";
@@ -23,6 +22,9 @@ export const routes = [
   {
     path: "/welcome",
     component: Welcome,
+    beforeEnter: (to:any, from:any, next:any) => {
+      localStorage.getItem('skipFeatures') === 'yes' ? next('/start') : next()
+    },
     children: [
       { path: "", redirect: "/welcome/1" },
       {
