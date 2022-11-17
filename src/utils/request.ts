@@ -27,7 +27,15 @@ class Request {
 };
 
 export const request = new Request('/api/v1/')
-//相响应拦截器
+//请求拦截器
+request.instance.interceptors.request.use(config => {
+  const jwt = localStorage.getItem('jwt')
+  if (jwt) {
+    config.headers!.Authorization = `Bearer ${jwt}`
+  }
+  return config
+})
+//响应拦截器
 request.instance.interceptors.response.use(response => {
   console.log('response')
   return response

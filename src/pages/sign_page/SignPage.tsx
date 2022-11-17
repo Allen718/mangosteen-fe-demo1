@@ -1,13 +1,14 @@
 import { Form, FormItem } from '@/components/Form/Form';
 import { Icon } from '@/components/Icon/Icon';
 import { MainLayout } from '@/components/Layout/MainLayout';
-
 import { Button } from '@/components/Button/Button';
 import { defineComponent, PropType, reactive, ref } from 'vue';
 import s from './SignPage.module.scss';
 import validate, { Rules, hasError } from '@/utils/validate';
 import { request } from '@/utils/request';
 import { useRoute, useRouter } from 'vue-router';
+import { routes } from '../../routes';
+import { refreshMe } from '@/utils/me';
 
 export const SignPage = defineComponent({
   props: {
@@ -17,7 +18,8 @@ export const SignPage = defineComponent({
 
   },
   setup: (props, context) => {
-    const history=useRouter()
+    const history = useRouter()
+    const route = useRoute()
     const refValidationCode = ref();
 
     const formData = reactive({
@@ -29,7 +31,7 @@ export const SignPage = defineComponent({
       code: [],
     })
     //登录接口
-    const onSubmit =async (e: Event) => {
+    const onSubmit = async (e: Event) => {
       e.preventDefault();
       Object.assign(errors, {
         email: [],
@@ -41,10 +43,13 @@ export const SignPage = defineComponent({
         { key: 'code', message: '必填', type: 'required' },
       ]
       Object.assign(errors, validate(formData, rule));
-      if(!hasError(errors)){
+      if (!hasError(errors)) {
         const response = await request.post<{ jwt: string }>('/session', formData)
         localStorage.setItem('jwt', response.data.jwt)
-        history.push('/')
+        refreshMe()
+        //应该是从那个页面来的就回去哪个页面
+        const returnTo = route.query.returnTo?.toString()
+        history.push(returnTo || '/')
       }
     };
     //发送验证码函数
