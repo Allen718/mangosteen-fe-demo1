@@ -7,6 +7,7 @@ import { defineComponent, PropType, reactive, ref } from 'vue';
 import s from './SignPage.module.scss';
 import validate, { Rules, hasError } from '@/utils/validate';
 import { request } from '@/utils/request';
+import { useRoute, useRouter } from 'vue-router';
 
 export const SignPage = defineComponent({
   props: {
@@ -16,6 +17,7 @@ export const SignPage = defineComponent({
 
   },
   setup: (props, context) => {
+    const history=useRouter()
     const refValidationCode = ref();
 
     const formData = reactive({
@@ -26,7 +28,8 @@ export const SignPage = defineComponent({
       email: [],
       code: [],
     })
-    const onSubmit = (e: Event) => {
+    //登录接口
+    const onSubmit =async (e: Event) => {
       e.preventDefault();
       Object.assign(errors, {
         email: [],
@@ -38,7 +41,13 @@ export const SignPage = defineComponent({
         { key: 'code', message: '必填', type: 'required' },
       ]
       Object.assign(errors, validate(formData, rule));
+      if(!hasError(errors)){
+        const response = await request.post<{ jwt: string }>('/session', formData)
+        localStorage.setItem('jwt', response.data.jwt)
+        history.push('/')
+      }
     };
+    //发送验证码函数
     const handleSendVidationCode = async () => {
       Object.assign(errors, {
         email: [],
