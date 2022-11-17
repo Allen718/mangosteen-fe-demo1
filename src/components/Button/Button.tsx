@@ -1,5 +1,5 @@
 import { prototype } from 'events';
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, PropType, ref, computed } from 'vue';
 import style from './Button.module.scss';
 
 export const Button = defineComponent({
@@ -21,8 +21,26 @@ export const Button = defineComponent({
     },
   },
   setup: (props, context) => {
+    const selfDisabled = ref(false)
+    const _selfDisabled = computed(() => {
+      if (props.disabled) {
+        return true
+      } else if (selfDisabled.value) {
+        return true
+      } else {
+        return false
+      }
+    })
+    const onClickButton = () => {
+      props.onClick?.()
+      selfDisabled.value = true;
+      setTimeout(()=>{
+        selfDisabled.value = false;
+      },500);
+
+    }
     return () => (
-      <button class={[style.button, style[props.level]]} type={props.type} onClick={props.onClick} disabled={props.disabled}>{
+      <button class={[style.button, style[props.level]]} type={props.type} onClick={onClickButton} disabled={props.disabled}>{
         context.slots.default?.()
       }</button>
     )
