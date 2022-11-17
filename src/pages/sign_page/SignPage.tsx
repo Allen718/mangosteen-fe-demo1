@@ -1,12 +1,13 @@
 import { Form, FormItem } from '@/components/Form/Form';
 import { Icon } from '@/components/Icon/Icon';
 import { MainLayout } from '@/components/Layout/MainLayout';
-import { Button } from '@/components/Button/Button';
 
+import { Button } from '@/components/Button/Button';
 import { defineComponent, PropType, reactive, ref } from 'vue';
 import s from './SignPage.module.scss';
-import validate, { Rules } from '@/utils/validate';
-import axios from 'axios';
+import validate, { Rules, hasError } from '@/utils/validate';
+import { request } from '@/utils/request';
+
 export const SignPage = defineComponent({
   props: {
     name: {
@@ -37,9 +38,23 @@ export const SignPage = defineComponent({
         { key: 'code', message: '必填', type: 'required' },
       ]
       Object.assign(errors, validate(formData, rule));
-      console.log('formData', formData)
     };
     const handleSendVidationCode = async () => {
+      Object.assign(errors, {
+        email: [],
+      })
+      const rule: Rules<typeof formData> = [
+        { key: 'email', message: '必填', type: 'required' },
+        { key: 'email', message: '必须是邮箱', type: 'pattern', regexp: /.+@+/ },
+      ]
+      Object.assign(errors, validate(formData, rule));
+      if (!hasError(errors)) {
+        request.post('sendValidateCode', {
+          email: formData.email
+        })
+
+        refValidationCode.value.startCount()
+      }
       // const response = await axios.post('/api/v1/validation_codes', { email: formData.email })
       // console.log(response)
       // const response = await axios.post('/api/v1/validation_codes', { email: formData.email })
@@ -47,8 +62,7 @@ export const SignPage = defineComponent({
       //     //失败
       //   })
       // 成功
-      console.log('浅浅的试一试哈')
-      refValidationCode.value.startCount()
+
     }
 
 
