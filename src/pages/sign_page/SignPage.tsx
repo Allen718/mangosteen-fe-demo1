@@ -44,7 +44,10 @@ export const SignPage = defineComponent({
       ]
       Object.assign(errors, validate(formData, rule));
       if (!hasError(errors)) {
-        const response = await request.post<{ jwt: string }>('/session', formData)
+        // const response = await request.post<{ jwt: string }>('/session', formData)
+        const response = await request.post<{ jwt: string }>('/session', formData, {
+          params: { _mock: 'session' }
+        }).catch(onerror)
         localStorage.setItem('jwt', response.data.jwt)
         refreshMe()
         //应该是从那个页面来的就回去哪个页面
