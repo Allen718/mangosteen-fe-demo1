@@ -11,7 +11,6 @@ export const Tabs = defineComponent({
   },
   emits: ['update:selected'],
   setup: (props, context) => {
-
     const cp = props.classPrefix //支持传入类名 自定义样式
     return () => {
       const tabs = context.slots.default?.()
@@ -32,7 +31,10 @@ export const Tabs = defineComponent({
               </li>)}
           </ol>
           <div >
-            {tabs.find(item => item.props?.label === props.selected)}
+            {tabs.map(item => <div v-show={item.props?.label === props.selected}>
+              {item}
+            </div>
+            )}
           </div>
         </div>
       )

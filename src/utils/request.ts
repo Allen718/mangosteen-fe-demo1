@@ -4,7 +4,7 @@ import axios, {
   AxiosRequestConfig,
   AxiosResponse,
 } from "axios";
-import { mockSession } from "../mock/index";
+import { mockSession, mockTagIndex } from "../mock/index";
 type JSONValue =
   | string
   | number
@@ -27,7 +27,7 @@ class Request {
   //read
   get<R = unknown>(
     url: string,
-    query?: Record<string, string>,
+    query?: Record<string, string|number>,
     config?: GetConfig
   ) {
     return this.instance.request<R>({
@@ -76,10 +76,11 @@ const mock = (response: AxiosResponse) => {
   ) {
     return false;
   }
+  console.log(response,'+++')
   switch (response.config?.params?._mock) {
-    // case 'tagIndex':
-    //   [response.status, response.data] = mockTagIndex(response.config)
-    //   return true
+    case 'tagIndex':
+      [response.status, response.data] = mockTagIndex(response.config)
+      return true
     // case 'itemCreate':
     //   [response.status, response.data] = mockItemCreate(response.config)
     //   return true
