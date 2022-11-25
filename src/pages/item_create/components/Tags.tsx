@@ -8,8 +8,10 @@ export const Tags = defineComponent({
     kind: {
       type: String as PropType<'expenses' | 'incomes'>,
       required: true,
-    }
+    },
+    selected: Number,
   },
+  emits: ['update:selected'],
   setup: (props, context) => {
     const pageRef = ref({ pageSize: 25, pageNum: 1 })
     const refHasMore = ref(false);
@@ -31,6 +33,9 @@ export const Tags = defineComponent({
     onMounted(() => {
       fetchTagList();
     })
+    const handleClickTag = (tag: Tag) => {
+         context.emit('update:selected', tag.id)
+    };
     return () => (
       <div>
         <div class={s.tags_wrapper} >
@@ -43,7 +48,7 @@ export const Tags = defineComponent({
             </div>
           </div>
           {tagList.value.map((tag: Tag) =>
-            <div class={[s.tag, s.selected]} >
+            <div class={[s.tag, props.selected === tag.id ?s.selected:'']} onClick={() => { handleClickTag(tag) }} >
               <div class={s.sign}>
                 {tag.sign}
               </div>

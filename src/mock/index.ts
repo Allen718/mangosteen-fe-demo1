@@ -13,13 +13,12 @@ export const mockSession: Mock = (config) => {
     },
   ];
 };
-
+let id = 0;
 export const mockTagIndex: Mock = (config) => {
   console.log("TCL: mockTagIndex:Mock -> config", config)
   const { kind} = config.params;
   const pageSize=Number(config.params.pageSize)
   const pageNum=Number(config.params.pageNum)
-  let id = 0;
   const createBody = (n = 1, attrs?: any) => {
     const resources = Array.from({ length: n }).map(() => ({
       id: (id += 1),

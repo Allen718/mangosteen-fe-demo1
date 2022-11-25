@@ -1,14 +1,18 @@
 import { defineComponent, PropType, ref } from 'vue';
 import { DatetimePicker, Popup } from 'vant';
-import { Time} from '../../../utils/time';
+import { Time } from '../../../utils/time';
 import { Icon } from '../../../components/Icon/Icon';
 import s from './InputPad.module.scss';
 export const InputPad = defineComponent({
   props: {
-    name: {
+    happendAt: {
       type: String as PropType<string>
+    },
+    amount: {
+      type: Number as PropType<number>
     }
   },
+  emits: ['update:happendAt', 'update:amount'],
   setup: (props, context) => {
     const buttons = [
       { text: '1' },
@@ -31,10 +35,10 @@ export const InputPad = defineComponent({
     ];
     const refShowPop = ref(false);
     const refDate = ref();
-    const refAmount = ref('0');
+    const refAmount = ref(props.amount ? (props.amount / 100).toString() : '0');
     const handleSelectDate = (value: Date) => {
-      refDate.value = value;
       refShowPop.value = false
+      context.emit('update:happendAt', value.toISOString())
     };
     const handleAppendText = (n: string) => {
       const dotIndex = refAmount.value.indexOf('.');
@@ -62,20 +66,29 @@ export const InputPad = defineComponent({
 
       refAmount.value += n
     };
+    //一个数字一个数字的删除
+    const handleDeleteAmout = () => {
+      let value
+      if (refAmount.value.length > 1) {
+        value = refAmount.value.slice(0, -1)
+      } else {
+        value = '0'
+      }
+      refAmount.value = value
+    }
     return () => (
       <>
         <div class={s.dateAndAmount}>
           <span class={s.date}>
             <Icon name="date" class={s.icon} />
             <span>
-              <span onClick={() => refShowPop.value = true}>{new Time(refDate.value).format('YYYY-MM-DD')}</span>
+              <span onClick={() => refShowPop.value = true}>{new Time(props.happendAt).format('YYYY-MM-DD')}</span>
               <Popup position='bottom' v-model:show={refShowPop.value}>
                 <DatetimePicker
-                  // v-model={refDate.value}
-                  value={refDate.value}
+                  value={props.happendAt}
                   type="date"
                   title="选择年月日"
-                  defaultValue={refDate.value}
+                  defaultValue={props.happendAt}
                   onConfirm={handleSelectDate}
                   onCancel={() => refShowPop.value = false}
                 />
@@ -88,8 +101,14 @@ export const InputPad = defineComponent({
           {buttons.map(button => <button onClick={() => {
             if (button.text === '清空') {
               return refAmount.value = '0'
+            } else if (button.text === '完成') {
+              context.emit('update:amount', Number(refAmount.value) * 100)
+            } else if (button.text === '删除') {
+              handleDeleteAmout()
+            } else {
+              handleAppendText(button.text)
             }
-            handleAppendText(button.text)
+
           }}>{button.text}</button>)}
         </div>
       </>

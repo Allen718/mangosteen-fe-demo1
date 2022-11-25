@@ -5,7 +5,6 @@ import { MainLayout } from '../../components/Layout/MainLayout';
 import { Tabs, Tab } from '../../components/Tab/Tab';
 import { InputPad } from './components/InputPad';
 import s from './ItemCreate.module.scss';
-
 import { Tags } from './components/Tags';
 
 
@@ -17,6 +16,9 @@ export const ItemCreate = defineComponent({
   },
   setup: (props, context) => {
     const refTab = ref('支出')
+    const refTagId = ref<number>();
+    const refHappendAt = ref<string>()
+    const refAmount = ref<number>()
     return () => (
       <div class={s.wrapper}>
         <MainLayout>{{
@@ -29,14 +31,16 @@ export const ItemCreate = defineComponent({
             // onUpdatedTab={(label) => refTab.value = label}
             >
               <Tab label="支出"  >
-                <Tags kind="expenses" />
+                <Tags kind="expenses" v-model:selected={refTagId.value} />
               </Tab>
               <Tab label="收入">
-                <Tags kind="incomes" />
+                <Tags kind="incomes" v-model:selected={refTagId.value} />
               </Tab>
             </Tabs>
             <div class={s.inputPad_wrapper}>
-              <InputPad />
+              {refHappendAt.value}
+              {refAmount.value}
+              <InputPad v-model:happendAt={refHappendAt.value} v-model:amount={refAmount.value} />
             </div>
           </div>
         }}
