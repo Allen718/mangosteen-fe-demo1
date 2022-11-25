@@ -6,11 +6,12 @@ import s from './StartPage.module.scss';
 import { Icon } from '../../components/Icon/Icon';
 import { Navbar } from '../../components/Navbar/Navbar';
 import { OverlayIcon } from '../../components/Overlay/Overlay';
+import { useRouter } from 'vue-router';
 
 export const StartPage = defineComponent({
   setup: (props, context) => {
 
-
+    const history = useRouter();
     return () => (
       <div>
         <Navbar >
@@ -22,7 +23,7 @@ export const StartPage = defineComponent({
         <Center class={s.pig_wrapper}>
           <Icon name='pig' class={s.pig} />
         </Center>
-        <div class={s.button_wrapper}><Button class={s.button}>开始记账</Button></div>
+        <div class={s.button_wrapper}><Button class={s.button} onClick={() => { history.push('/item/create') }}>开始记账</Button></div>
         <FloatButton></FloatButton>
       </div>
     )
