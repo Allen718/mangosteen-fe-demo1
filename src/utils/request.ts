@@ -4,7 +4,7 @@ import axios, {
   AxiosRequestConfig,
   AxiosResponse,
 } from "axios";
-import { mockSession, mockTagIndex } from "../mock/index";
+import { mockItemCreate, mockSession, mockTagIndex } from "../mock/index";
 type JSONValue =
   | string
   | number
@@ -76,14 +76,13 @@ const mock = (response: AxiosResponse) => {
   ) {
     return false;
   }
-  console.log(response,'+++')
   switch (response.config?.params?._mock) {
     case 'tagIndex':
       [response.status, response.data] = mockTagIndex(response.config)
       return true
-    // case 'itemCreate':
-    //   [response.status, response.data] = mockItemCreate(response.config)
-    //   return true
+    case 'itemCreate':
+      [response.status, response.data] = mockItemCreate(response.config)
+      return true
     // case 'itemIndex':
     //   [response.status, response.data] = mockItemIndex(response.config)
     //   return true
@@ -111,7 +110,6 @@ request.instance.interceptors.request.use((config) => {
 //响应拦截器
 request.instance.interceptors.response.use(
   (response) => {
-    console.log(response,'response');
     mock(response);
     return response;
   },

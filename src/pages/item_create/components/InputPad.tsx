@@ -10,6 +10,9 @@ export const InputPad = defineComponent({
     },
     amount: {
       type: Number as PropType<number>
+    },
+    onSubmit: {
+      type: Function as PropType<() => void>
     }
   },
   emits: ['update:happendAt', 'update:amount'],
@@ -34,7 +37,6 @@ export const InputPad = defineComponent({
 
     ];
     const refShowPop = ref(false);
-    const refDate = ref();
     const refAmount = ref(props.amount ? (props.amount / 100).toString() : '0');
     const handleSelectDate = (value: Date) => {
       refShowPop.value = false
@@ -102,11 +104,14 @@ export const InputPad = defineComponent({
             if (button.text === '清空') {
               return refAmount.value = '0'
             } else if (button.text === '完成') {
+
               context.emit('update:amount', Number(refAmount.value) * 100)
+              props.onSubmit?.()
             } else if (button.text === '删除') {
               handleDeleteAmout()
             } else {
               handleAppendText(button.text)
+
             }
 
           }}>{button.text}</button>)}
