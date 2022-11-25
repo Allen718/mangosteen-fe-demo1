@@ -1,18 +1,18 @@
 import { Button } from '@/components/Button/Button';
 import { Form, FormItem } from '@/components/Form/Form';
-import validate, { Rules } from '@/utils/validate';
+import validate, { hasError, Rules } from '@/utils/validate';
 import { defineComponent, PropType, reactive } from 'vue';
 import s from './TagForm.module.scss';
+import { request } from '../../../utils/request';
+import { useRoute, useRouter } from 'vue-router';
 export const TagForm = defineComponent({
-  props: {
-    name: {
-      type: String as PropType<string>
-    }
-  },
   setup: (props, context) => {
+    const route = useRoute();
+    const router = useRouter()
     const formData = reactive({
       name: '',
       sign: '',
+      kind: route.query.kind!.toString(),
     })
     //关于错误
     const errors = reactive<{ [k in keyof typeof formData]?: string[] }>({});
@@ -21,12 +21,20 @@ export const TagForm = defineComponent({
       { key: 'name', message: '校验不通过', type: 'pattern', regexp: /^.{1,4}$/ },
       { key: 'sign', message: '必选', type: 'required' },
     ];
-    const handleSubmit = (e: Event) => {
+    const handleSubmit = async (e: Event) => {
       Object.assign(errors, {
-        name: undefined,
-        sign: undefined
+        name: '',
+        sign: '',
       })
       Object.assign(errors, validate(formData, rules))
+      if (!hasError(errors)) {
+        await request.post('/tags', formData, {
+          params: {
+            _mock: 'tagCreate'
+          }
+        }).catch()
+        router.back()
+      }
       e.preventDefault();
     };
     return () => (
@@ -34,7 +42,7 @@ export const TagForm = defineComponent({
         <Form onSubmit={handleSubmit}>
           {{
             default: () => <>
-              <FormItem label='标签名'
+              <FormItem label='标签名(1-4个字符)'
                 type="text"
                 v-model:modelValue={formData.name}
                 isHasError={Boolean(errors['name'])}
@@ -46,7 +54,7 @@ export const TagForm = defineComponent({
                 error={errors['sign'] ? errors['sign'][0] : '　'} />
             </>,
             actions: () => <div class={s.formItem_value}>
-              <Button class={[s.formItem, s.button]} >确定</Button>
+              <Button class={[s.formItem, s.button]} type="submit">确定</Button>
             </div>
           }}
         </Form>

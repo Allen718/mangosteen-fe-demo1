@@ -3,6 +3,7 @@ import { Icon } from '@/components/Icon/Icon';
 import s from './Tags.module.scss';
 import { request } from '../../../utils/request';
 import { Button } from '@/components/Button/Button';
+import { useRouter } from 'vue-router';
 export const Tags = defineComponent({
   props: {
     kind: {
@@ -13,6 +14,7 @@ export const Tags = defineComponent({
   },
   emits: ['update:selected'],
   setup: (props, context) => {
+    const router = useRouter()
     const pageRef = ref({ pageSize: 25, pageNum: 1 })
     const refHasMore = ref(false);
     const tagList = ref<Tag[]>([]);
@@ -34,21 +36,24 @@ export const Tags = defineComponent({
       fetchTagList();
     })
     const handleClickTag = (tag: Tag) => {
-         context.emit('update:selected', tag.id)
+      context.emit('update:selected', tag.id)
     };
+    const handleAddTag = () => {
+      router.push(`/tag?kind=${props.kind}`)
+    }
     return () => (
       <div>
         <div class={s.tags_wrapper} >
-          <div class={s.tag}>
+          <div class={s.tag} onClick={handleAddTag}>
             <div class={s.sign}>
               <Icon name="add" class={s.createTag} />
             </div>
-            <div class={s.name}>
+            <div class={s.name} >
               新增
             </div>
           </div>
           {tagList.value.map((tag: Tag) =>
-            <div class={[s.tag, props.selected === tag.id ?s.selected:'']} onClick={() => { handleClickTag(tag) }} >
+            <div class={[s.tag, props.selected === tag.id ? s.selected : '']} onClick={() => { handleClickTag(tag) }} >
               <div class={s.sign}>
                 {tag.sign}
               </div>
