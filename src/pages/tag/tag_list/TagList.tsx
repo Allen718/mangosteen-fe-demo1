@@ -3,6 +3,7 @@ import { Icon } from '@/components/Icon/Icon';
 import { MainLayout } from '@/components/Layout/MainLayout';
 import s from './TagList.module.scss';
 import { TagForm } from '../tag_form/TagForm';
+import { useRouter } from 'vue-router';
 
 export const TagList = defineComponent({
   props: {
@@ -11,12 +12,15 @@ export const TagList = defineComponent({
     }
   },
   setup: (props, context) => {
+    const router=useRouter();
     return () => (
       <div class={s.wrapper}>
         <MainLayout>
           {{
             title: () => '新建标签',
-            icon: () => <Icon name='left' />,
+            icon: () => <Icon name='left' onClick={() => {
+              router.back()
+            }} />,
             default: () => <> <TagForm />  </>
           }}
         </MainLayout>

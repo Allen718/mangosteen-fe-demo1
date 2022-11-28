@@ -14,7 +14,7 @@ export const TagEdit = defineComponent({
     }
   },
   setup: (props, context) => {
-    const router=useRouter()
+    const router = useRouter()
     //删除标签
     const onDelete = () => {
       Dialog.confirm({
@@ -31,7 +31,9 @@ export const TagEdit = defineComponent({
         <MainLayout>
           {{
             title: () => '编辑标签',
-            icon: () => <Icon name='left' />,
+            icon: () => <Icon name='left' onClick={() => {
+              router.back()
+            }} />,
             default: () => <>
               <TagForm />
               <div class={s.actions}>
