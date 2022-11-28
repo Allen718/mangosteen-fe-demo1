@@ -78,3 +78,15 @@ export const mockTagCreate: Mock = (config) => {
     },
   ];
 };
+export const mockTagUpdate: Mock = (config) => {
+  return [
+    200,
+    {
+      resources: {
+        name: faker.lorem.word(),
+        sign: faker.internet.emoji(),
+        kind: config.params.kind,
+      },
+    },
+  ];
+};

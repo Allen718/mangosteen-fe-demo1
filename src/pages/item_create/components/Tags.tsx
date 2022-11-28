@@ -44,14 +44,14 @@ export const Tags = defineComponent({
       router.push(`/tag?kind=${props.kind}`)
     }
     //长按跳转
-    const onLongPress = () => {
-      router.push(`/tag/edit?kind=${props.kind}`)
+    const onLongPress = (tag: Tag) => {
+      router.push(`/tag/edit?kind=${props.kind}&name=${tag.name}&sign=${tag.sign}`)
     };
     //图标的开始触摸
-    const handleTouchStart = (e: TouchEvent) => {
+    const handleTouchStart = (e: TouchEvent, tag: Tag) => {
       currentTag.value = e.currentTarget;
       timer.value = window.setTimeout(() => {
-        onLongPress()
+        onLongPress(tag)
       }, 1000)
     };
     //结束时
@@ -79,7 +79,7 @@ export const Tags = defineComponent({
           </div>
           {tagList.value.map((tag: Tag) =>
             <div
-              onTouchstart={handleTouchStart}
+              onTouchstart={(e: TouchEvent) => { handleTouchStart(e, tag) }}
               onTouchend={handleTouchEnd}
               onTouchmove={handleTouchMove}
               class={[s.tag, props.selected === tag.id ? s.selected : '']} onClick={() => { handleClickTag(tag) }} >

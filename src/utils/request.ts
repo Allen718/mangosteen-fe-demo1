@@ -4,7 +4,7 @@ import axios, {
   AxiosRequestConfig,
   AxiosResponse,
 } from "axios";
-import { mockItemCreate, mockSession, mockTagCreate, mockTagIndex } from "../mock/index";
+import { mockItemCreate, mockSession, mockTagCreate, mockTagIndex, mockTagUpdate } from "../mock/index";
 type JSONValue =
   | string
   | number
@@ -88,6 +88,8 @@ const mock = (response: AxiosResponse) => {
     //   return true
     case 'tagCreate':
       [response.status, response.data] = mockTagCreate(response.config)
+    case 'tagUpdate':
+      [response.status, response.data] = mockTagUpdate(response.config)
     case "session":
       [response.status, response.data] = mockSession(response.config);
       return true;
