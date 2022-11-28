@@ -18,6 +18,8 @@ export const Tags = defineComponent({
     const pageRef = ref({ pageSize: 25, pageNum: 1 })
     const refHasMore = ref(false);
     const tagList = ref<Tag[]>([]);
+    const timer = ref<number>();
+    const currentTag = ref()
     const handleLoadMore = () => {
       fetchTagList();
     }
@@ -41,6 +43,29 @@ export const Tags = defineComponent({
     const handleAddTag = () => {
       router.push(`/tag?kind=${props.kind}`)
     }
+    //长按跳转
+    const onLongPress = () => {
+      router.push(`/tag/edit?kind=${props.kind}`)
+    };
+    //图标的开始触摸
+    const handleTouchStart = (e: TouchEvent) => {
+      currentTag.value = e.currentTarget;
+      timer.value = window.setTimeout(() => {
+        onLongPress()
+      }, 1000)
+    };
+    //结束时
+    const handleTouchEnd = () => {
+      clearTimeout(timer.value)
+    };
+    //触摸移动时
+    const handleTouchMove = (e: TouchEvent) => {
+      const pointedElement = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY)
+      if (currentTag.value !== pointedElement && !currentTag.value?.contains(pointedElement)) {
+        clearTimeout(timer.value)
+      }
+    };
+
     return () => (
       <div>
         <div class={s.tags_wrapper} >
@@ -53,7 +78,11 @@ export const Tags = defineComponent({
             </div>
           </div>
           {tagList.value.map((tag: Tag) =>
-            <div class={[s.tag, props.selected === tag.id ? s.selected : '']} onClick={() => { handleClickTag(tag) }} >
+            <div
+              onTouchstart={handleTouchStart}
+              onTouchend={handleTouchEnd}
+              onTouchmove={handleTouchMove}
+              class={[s.tag, props.selected === tag.id ? s.selected : '']} onClick={() => { handleClickTag(tag) }} >
               <div class={s.sign}>
                 {tag.sign}
               </div>
