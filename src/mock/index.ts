@@ -90,3 +90,39 @@ export const mockTagUpdate: Mock = (config) => {
     },
   ];
 };
+export const mockItemIndex: Mock = (config) => {
+  const { pageNum, kind } = config.params;
+  const createBody = (n = 1, attrs?: any) => {
+    const resources = Array.from({ length: n }).map(() => {
+      const tagInfo = Array.from({ length: 2 }).map((_, index) => ({
+        tagId: index,
+        sign: faker.internet.emoji(),
+      }));
+      return {
+        id: (id += 1),
+        name: faker.lorem.word(),
+        tagInfo,
+        amount: Math.floor(Math.random() * 10000),
+        kind: config.params.kind,
+        happendAt: faker.date.past().toISOString(),
+        ...attrs,
+      };
+    });
+    return {
+      pager: {
+        total: 27,
+        pageSize: 25,
+        pageNum,
+      },
+      resources,
+    };
+  };
+
+  if (pageNum === 1 || !pageNum) {
+    return [200, createBody(25)];
+  } else if (pageNum === 2) {
+    return [200, createBody(2)];
+  } else {
+    return [200, createBody(20)];
+  }
+};

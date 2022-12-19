@@ -12,11 +12,9 @@ const demo = defineComponent({
   props: {
     startDate: {
       type: String as PropType<string>,
-      required: true
     },
     endDate: {
       type: String as PropType<string>,
-      required: true
     }
   },
 })
@@ -55,8 +53,8 @@ export const TimeTabsLayout = defineComponent({
       }
     ]
     const customTime = reactive({
-      start: new Time().format(),
-      end: new Time().format(),
+      start: '',
+      end: '',
     });
     //关于错误
     const errors = reactive<{ [k in keyof typeof customTime]?: string[] }>({});
